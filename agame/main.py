@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import os
 import time
 
 import pygame
@@ -15,7 +16,13 @@ def main():
     screen = pygame.display.set_mode((20 * 16 * SCALE, 9 * 16 * SCALE))
     pygame.display.set_caption('Monkey Fever')
 
-    ts = TiledFile("/home/aroda/prog/jocs/prova-plataformes/assets/prova-platformer.json")
+    ts = TiledFile(
+        os.path.join(
+            os.path.dirname(__file__),
+            "assets",
+            "prova-platformer.json"
+        )
+    )
     quit = False
     left = 0
     buffer = pygame.Surface((21 * 16, 9 * 16))
