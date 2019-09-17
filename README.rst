@@ -5,7 +5,7 @@ agame
 =agame= is just a bunch of experiments about game programming, just
 for fun and learning.
 
-.. image:: etc/exmple01.png
+.. image:: etc/example01.png
    :align: center
 
 I've choosen python because I feel comfortable with the language,
