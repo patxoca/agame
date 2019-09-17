@@ -1,0 +1,94 @@
+{
+    "height": 9,
+    "layers": [
+        {
+            "compression": "zlib",
+            "data": "eJztykEWQmAYhtHPSoTEBkolbSBJ2P8mhKiBZxEm/znv4M5ub2YfDBgx4YsZC374o9dz8vme2Q4BQkTYI8YBCVJPz9V3xAkZzrjgihw3FLjrOfseKPFEhRdqvNGgRafn7KtFREREZFMrhaaEMA==",
+            "encoding": "base64",
+            "height": 9,
+            "name": "cel",
+            "opacity": 1,
+            "type": "tilelayer",
+            "visible": true,
+            "width": 120,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "compression": "zlib",
+            "data": "eJztyscNgDAAxdBkVHpZgF4WoIQ2L54CAfqW3s3GKKWUUurpPGuMjwAhIsRIkCJDbvV99StQokKNBi069Bgw6vvsN2HGghUOG3YcOHHp06fvlZ+TX7sBJU44QA==",
+            "encoding": "base64",
+            "height": 9,
+            "name": "montanyes",
+            "opacity": 1,
+            "type": "tilelayer",
+            "visible": true,
+            "width": 120,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "compression": "zlib",
+            "data": "eJztkUsSQDAQRHMCHAKHwIXc/wLGrqsrpiI/Fv2qepHQ40lCEEIIIYQQvRgso2X6WsSBHXFdy79kTqlDTj+1M1sWywp75yu79rAjrmP+Nb7Rq5vb9zp4f5tltxyZbq25XdGR1/wM481k+BzwHZ7Hfe8Mn1xwP6XP//X3exP1uABdXRNv",
+            "encoding": "base64",
+            "height": 9,
+            "name": "decoracio",
+            "opacity": 1,
+            "type": "tilelayer",
+            "visible": true,
+            "width": 120,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "compression": "zlib",
+            "data": "eJzt00EKgCAQRmGPmHaH9BJ1po7YCA7MIjGRysX74G2kRfijcwAAAJjdInlTaHy/SVFKL/8XvqOb5naTnrH1P+xbW0tP319t01psPS52pnd/SGfpbhOaowuiyUHq",
+            "encoding": "base64",
+            "height": 9,
+            "name": "plataforma",
+            "opacity": 1,
+            "type": "tilelayer",
+            "visible": true,
+            "width": 120,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "compression": "zlib",
+            "data": "eJztzjENACAMAMFKQQUuUIP/hImpawmQ3An4fAQAAPCKdnuAZBa2emFrGwea8KMFADwBFw==",
+            "encoding": "base64",
+            "height": 9,
+            "name": "personatges",
+            "opacity": 1,
+            "type": "tilelayer",
+            "visible": true,
+            "width": 120,
+            "x": 0,
+            "y": 0
+        }
+    ],
+    "nextobjectid": 1,
+    "orientation": "orthogonal",
+    "properties": {},
+    "renderorder": "right-down",
+    "tileheight": 16,
+    "tilesets": [
+        {
+            "firstgid": 1,
+            "image": "arcade_platformerV2.png",
+            "imageheight": 320,
+            "imagewidth": 352,
+            "margin": 0,
+            "name": "platformer",
+            "properties": {},
+            "spacing": 0,
+            "tilecount": 440,
+            "tileheight": 16,
+            "tilewidth": 16,
+            "transparentcolor": "#8658d6"
+        }
+    ],
+    "tilewidth": 16,
+    "version": 1,
+    "width": 120
+}
