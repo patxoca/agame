@@ -18,7 +18,6 @@ Read `agame/assets/README.txt <agame/assets/README.txt>`_ for details.
 
 
 ..
-
    Local Variables:
    ispell-dictionary: "en"
    End:
