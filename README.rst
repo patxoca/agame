@@ -2,7 +2,7 @@
 agame
 *****
 
-=agame= is just a bunch of experiments about game programming, just
+``agame`` is just a bunch of experiments about game programming, just
 for fun and learning.
 
 .. image:: etc/example01.png
