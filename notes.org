@@ -1,0 +1,63 @@
+#+TITLE: Notes
+#+AUTHOR: Alexis Roda
+#+EMAIL: alexis.roda.villalonga@gmail.com
+
+#+LANGUAGE: ca
+
+#+TODO: TODO STRT HOLD PAUS DONE(@)
+#+TODO: REPORT(r) BUG(b) KNOWNCAUSE(k) | FIXED(f)
+#+TODO: | CANCELED(c)
+
+#+LATEX_CLASS: informe
+
+
+* TODOs
+
+** TODO facilitar depuració
+
+- Implementar un objecte que faciliti als diferents components mostrar
+  missatges.
+
+- Pemetre que els objects es dibuixin de forma diferent en mode normal
+  i depuració. P.e. en mode depuració es pot pintar la /bounding box/
+  o un /tile/ del fons pot mostrar informació.
+
+- Implementar un mode d'execució pas a pas.
+
+** TODO afegir scroll vertical
+
+Afegir scroll vertical. Com afecta al parallax?
+
+
+* Notes
+
+** Descarrega de assets
+
+Pàgina principal:
+
+https://opengameart.org/
+
+Assets 2D:
+
+https://opengameart.org/art-search-advanced?keys=&field_art_type_tid%5B%5D=9&sort_by=count&sort_order=DESC
+
+
+* Completat
+
+** DONE repensar escalat del background
+
+   - State "DONE"       from "TODO"       [2019-09-21 ds 08:42] \\
+     S'escala x4 el full de tiles i s'ajusten les dimensions en el tile
+     map.
+
+     Amb aquest canvi el frame rate baixa notablement. Caldrà optimitzar-lo.
+
+Actualment el background es dibuixa a una escala 1:1 respecte als
+tiles 16x16 i posteriorment s'escala amb un factor de 4. Açò presenta
+certs problemes i limitacions:
+
+- impedeix mostrar text per ajudar en la depuració.
+
+- el scroll es fa pixel a pixel en la imatge no escalada, al aplicar
+  l'escalat xN el scroll es fa N pixels a N pixels. Açò fa que els
+  scrolls lents vagin a cops.
