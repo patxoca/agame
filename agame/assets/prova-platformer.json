@@ -71,24 +71,24 @@
     "orientation": "orthogonal",
     "properties": {},
     "renderorder": "right-down",
-    "tileheight": 16,
+    "tileheight": 64,
     "tilesets": [
         {
             "firstgid": 1,
             "image": "arcade_platformerV2.png",
-            "imageheight": 320,
-            "imagewidth": 352,
+            "imageheight": 1280,
+            "imagewidth": 1408,
             "margin": 0,
             "name": "platformer",
             "properties": {},
             "spacing": 0,
             "tilecount": 440,
-            "tileheight": 16,
-            "tilewidth": 16,
+            "tileheight": 64,
+            "tilewidth": 64,
             "transparentcolor": "#8658d6"
         }
     ],
-    "tilewidth": 16,
+    "tilewidth": 64,
     "version": 1,
     "width": 120
 }
