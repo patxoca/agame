@@ -10,8 +10,7 @@ from agame.tiled import TiledFile
 from agame.bgmgr import BackgroundManager
 
 
-FPS = 60
-SCALE = 4
+FPS = 120
 SCREEN_COLS = 20
 SCREEN_ROWS = 9
 SPEED_X = 1.0 / 256.0
@@ -20,14 +19,14 @@ SPEED_X = 1.0 / 256.0
 def main():
     pygame.init()
     screen = pygame.display.set_mode(
-        (SCREEN_COLS * 16 * SCALE, SCREEN_ROWS * 16 * SCALE)
+        (SCREEN_COLS * 64, SCREEN_ROWS * 64)  # FIXME: hardcoded tile size
     )
     pygame.display.set_caption('Monkey Fever')
     clock = pygame.time.Clock()
 
     layers = (
-        ("cel", 0.1),
-        ("montanyes", 0.2),
+        ("cel", 0.025),
+        ("montanyes", 0.1),
         ("decoracio", 1),
         ("plataforma", 1),
     )
@@ -47,6 +46,10 @@ def main():
         ts,
         layers,
     )
+    debug_bg = pygame.Surface((3 * ts.tile_width, 1 * ts.tile_height))
+    debug_bg.set_alpha(192)
+    debug_bg = debug_bg.convert_alpha()
+
     pygame.font.init()
     myfont = pygame.font.SysFont('Ubuntu Mono', 16)
 
@@ -59,8 +62,6 @@ def main():
     else:
         speed_x = SPEED_X
     save_speed_x = SPEED_X
-    frames = 0
-    t0 = time.time()
     elapsed = 1
     while not quit:
 
@@ -72,13 +73,20 @@ def main():
 
         background.update(left, elapsed)
 
-        elapsed = 0
-
         screen.blit(background.get_background(), (0, 0))
         if debug:
-            text = myfont.render("%8.4f" % left, False, (0, 0, 0))
-            screen.blit(text, (4, 4))
+            screen.blit(debug_bg, (8, 8))
+            text = myfont.render("offset  = %8.4f" % left, False, (255, 255, 255))
+            screen.blit(text, (12, 12))
+            text = myfont.render("speed   = %8.4f" % speed_x, False, (255, 255, 255))
+            screen.blit(text, (12, 24))
+            text = myfont.render("elapsed = %8.4f" % elapsed, False, (255, 255, 255))
+            screen.blit(text, (12, 36))
+            text = myfont.render("fps     = %8.4f" % clock.get_fps(), False, (255, 255, 255))
+            screen.blit(text, (12, 48))
         pygame.display.flip()
+
+        elapsed = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -111,9 +119,7 @@ def main():
                     if mode == "step":
                         elapsed = 1 / ts.tile_width
 
-        frames = frames + 1
-        fps = frames / (time.time() - t0)
-        pygame.display.set_caption("Monkey Fever: [%7.2f]" % fps)
+        pygame.display.set_caption("Monkey Fever: [%7.2f]" % clock.get_fps())
 
 
 if __name__ == '__main__':
