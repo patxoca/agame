@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 import os
-import time
 
 import pygame
 from pygame.locals import *  # NOQA
@@ -13,7 +12,7 @@ from agame.bgmgr import BackgroundManager
 FPS = 120
 SCREEN_COLS = 20
 SCREEN_ROWS = 9
-SPEED_X = 1.0 / 256.0
+SPEED_X = 1.0 / 64.0
 
 
 def main():
@@ -22,6 +21,8 @@ def main():
         (SCREEN_COLS * 64, SCREEN_ROWS * 64)  # FIXME: hardcoded tile size
     )
     pygame.display.set_caption('Monkey Fever')
+    # TODO: instead of "set_delay" may be use "get_pressed"?
+    pygame.key.set_repeat(10, 50)
     clock = pygame.time.Clock()
 
     layers = (
@@ -46,7 +47,7 @@ def main():
         ts,
         layers,
     )
-    debug_bg = pygame.Surface((3 * ts.tile_width, 1 * ts.tile_height))
+    debug_bg = pygame.Surface((4 * ts.tile_width, 2 * ts.tile_height))
     debug_bg.set_alpha(192)
     debug_bg = debug_bg.convert_alpha()
 
@@ -56,37 +57,28 @@ def main():
     debug = False
     mode = "normal"  # "step"
     quit = False
-    left = 0
+    save_speed_x = SPEED_X
+    elapsed = 1
+    camera_x = SCREEN_COLS / 2
+    camera_y = SCREEN_ROWS / 2
+    vp_offset_x = camera_x - SCREEN_COLS / 2
+    vp_offset_y = camera_y - SCREEN_ROWS / 2
+    player_x = 0.0
+    player_y = 7.0
     if mode == "step":
         speed_x = 1
     else:
         speed_x = SPEED_X
-    save_speed_x = SPEED_X
-    elapsed = 1
+    speed_y = SPEED_X
+
+    player_sprite = ts.get_tile_by_index(115)
+
     while not quit:
 
         if mode != "step":
             elapsed = clock.tick(FPS)
         else:
             clock.tick(FPS)
-        left = max(min(left + speed_x * elapsed, ts.width - SCREEN_COLS - 1), 0)
-
-        background.update(left, elapsed)
-
-        screen.blit(background.get_background(), (0, 0))
-        if debug:
-            screen.blit(debug_bg, (8, 8))
-            text = myfont.render("offset  = %8.4f" % left, False, (255, 255, 255))
-            screen.blit(text, (12, 12))
-            text = myfont.render("speed   = %8.4f" % speed_x, False, (255, 255, 255))
-            screen.blit(text, (12, 24))
-            text = myfont.render("elapsed = %8.4f" % elapsed, False, (255, 255, 255))
-            screen.blit(text, (12, 36))
-            text = myfont.render("fps     = %8.4f" % clock.get_fps(), False, (255, 255, 255))
-            screen.blit(text, (12, 48))
-        pygame.display.flip()
-
-        elapsed = 0
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -95,11 +87,21 @@ def main():
                 if event.key == pygame.K_ESCAPE:
                     quit = True
                 elif event.key == pygame.K_LEFT:
-                    if speed_x > 0:
-                        speed_x = -speed_x
+                    player_x -= speed_x * elapsed
+                    if player_x < 0:
+                        player_x = 0
                 elif event.key == pygame.K_RIGHT:
-                    if speed_x < 0:
-                        speed_x = -speed_x
+                    player_x += speed_x * elapsed
+                    if player_x + 1 > ts.width:
+                        player_x = ts.width - 1
+                elif event.key == pygame.K_UP:
+                    player_y -= speed_y * elapsed
+                    if player_y < 0:
+                        player_y = 0
+                elif event.key == pygame.K_DOWN:
+                    player_y += speed_y * elapsed
+                    if player_y + 1 > ts.height:
+                        player_y = ts.height - 1
                 elif event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4):
                     background.toggle_layer_visibility(
                         get_layer_name_by_index(event.key - pygame.K_1)
@@ -119,7 +121,53 @@ def main():
                     if mode == "step":
                         elapsed = 1 / ts.tile_width
 
+        vp_offset_x = player_x - SCREEN_COLS / 2
+        if vp_offset_x < 0:
+            vp_offset_x = 0
+        elif vp_offset_x > ts.width - SCREEN_COLS - 1:
+            vp_offset_x = ts.width - SCREEN_COLS - 1
+        camera_x = vp_offset_x + SCREEN_COLS / 2
+        # vp_offset_x = 0
+
+        # max(min(vp_offset_x + speed_x * elapsed, ts.width - SCREEN_COLS - 1), 0)
+
+        background.update(vp_offset_x, elapsed)
+
+        screen.blit(background.get_background(), (0, 0))
+        screen.blit(
+            player_sprite,
+            (
+                (player_x - vp_offset_x) * ts.tile_width,
+                (player_y - vp_offset_y) * ts.tile_height
+            )
+        )
+
+        if debug:
+            screen.blit(debug_bg, (8, 8))
+            text = myfont.render("offset  = %8.4f" % vp_offset_x, False, (255, 255, 255))
+            screen.blit(text, (12, 12))
+            text = myfont.render(
+                "player  = (%8.4f, %8.4f)" % (player_x, player_y),
+                False,
+                (255, 255, 255)
+            )
+            screen.blit(text, (12, 24))
+            text = myfont.render(
+                "camera  = (%8.4f, %8.4f)" % (camera_x, camera_y),
+                False,
+                (255, 255, 255)
+            )
+            screen.blit(text, (12, 36))
+            text = myfont.render("speed   = %8.4f" % speed_x, False, (255, 255, 255))
+            screen.blit(text, (12, 48))
+            text = myfont.render("elapsed = %8.4f" % elapsed, False, (255, 255, 255))
+            screen.blit(text, (12, 60))
+            text = myfont.render("fps     = %8.4f" % clock.get_fps(), False, (255, 255, 255))
+            screen.blit(text, (12, 72))
+        pygame.display.flip()
+
         pygame.display.set_caption("Monkey Fever: [%7.2f]" % clock.get_fps())
+        elapsed = 0
 
 
 if __name__ == '__main__':
