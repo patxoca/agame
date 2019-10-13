@@ -5,7 +5,7 @@ from typing import Tuple
 import pygame
 
 from .tiled import TiledFile
-from .utils import constraint_to_range
+from .utils import constrain_to_range
 
 
 class _LayerInfo:
@@ -67,7 +67,7 @@ class BackgroundManager:
         self.font = pygame.font.SysFont("Ubuntu Mono", 10)
 
     def update(self, left: float, elapsed: float):
-        left = constraint_to_range(left, 0, self.max_offset_x)
+        left = constrain_to_range(left, 0, self.max_offset_x)
         if (left == self.last_left) and not self.dirty:
             return
 

@@ -7,7 +7,7 @@ from pygame.locals import *  # NOQA
 
 from agame.tiled import TiledFile
 from agame.bgmgr import BackgroundManager
-from agame.utils import constraint_to_range
+from agame.utils import constrain_to_range
 
 
 FPS = 120
@@ -80,13 +80,13 @@ class Game:
             for event in pygame.event.get():
                 self.process_event(event)
 
-            self.vp_offset_x = constraint_to_range(
+            self.vp_offset_x = constrain_to_range(
                 self.player_x - SCREEN_COLS / 2,
                 0,
                 self.ts.width - SCREEN_COLS
             )
 
-            self.vp_offset_y = constraint_to_range(
+            self.vp_offset_y = constrain_to_range(
                 self.player_y - SCREEN_ROWS / 2,
                 0,
                 self.ts.height - SCREEN_ROWS
