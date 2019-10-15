@@ -42,6 +42,7 @@ class Game:
                 "prova-platformer.json"
             )
         )
+        self.plataforma = self.ts.get_layer_by_name("plataforma")
         self.background = BackgroundManager(
             (SCREEN_COLS, SCREEN_ROWS),
             self.ts,
@@ -130,21 +131,37 @@ class Game:
             if event.key == pygame.K_ESCAPE:
                 self.quit = True
             elif event.key == pygame.K_LEFT:
-                self.player_x -= self.speed_x * self.elapsed
-                if self.player_x < 0:
-                    self.player_x = 0
+                new_player_x = self.player_x - self.speed_x * self.elapsed
+                if new_player_x < 0:
+                    new_player_x = 0
+                if self.plataforma.get(new_player_x, self.player_y) == 0 and self.plataforma.get(new_player_x, self.player_y + 0.9) == 0:
+                    self.player_x = new_player_x
+                else:
+                    self.player_x = int(new_player_x) + 1
             elif event.key == pygame.K_RIGHT:
-                self.player_x += self.speed_x * self.elapsed
-                if self.player_x + 1 > self.ts.width:
-                    self.player_x = self.ts.width - 1
+                new_player_x = self.player_x + self.speed_x * self.elapsed
+                if new_player_x + 1 > self.ts.width:
+                    new_player_x = self.ts.width - 1
+                if self.plataforma.get(new_player_x + 1, self.player_y) == 0 and self.plataforma.get(new_player_x + 1, self.player_y + 0.9) == 0:
+                    self.player_x = new_player_x
+                else:
+                    self.player_x = int(new_player_x)
             elif event.key == pygame.K_UP:
-                self.player_y -= self.speed_y * self.elapsed
-                if self.player_y < 0:
-                    self.player_y = 0
+                new_player_y = self.player_y - self.speed_y * self.elapsed
+                if new_player_y < 0:
+                    new_player_y = 0
+                if self.plataforma.get(self.player_x, new_player_y) == 0 and self.plataforma.get(self.player_x + 0.9, new_player_y) == 0:
+                    self.player_y = new_player_y
+                else:
+                    self.player_y = int(new_player_y) + 1
             elif event.key == pygame.K_DOWN:
-                self.player_y += self.speed_y * self.elapsed
-                if self.player_y + 1 > self.ts.height:
-                    self.player_y = self.ts.height - 1
+                new_player_y = self.player_y + self.speed_y * self.elapsed
+                if new_player_y + 1 > self.ts.height:
+                    new_player_y = self.ts.height - 1
+                if self.plataforma.get(self.player_x, new_player_y + 1) == 0 and self.plataforma.get(self.player_x + 0.9, new_player_y + 1) == 0:
+                    self.player_y = new_player_y
+                else:
+                    self.player_y = int(new_player_y)
             elif event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4):
                 self.background.toggle_layer_visibility(
                     self.get_layer_name_by_index(event.key - pygame.K_1)
