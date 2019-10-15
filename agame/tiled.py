@@ -116,6 +116,10 @@ class Layer:
         self.x = data["x"]
         self.y = data["y"]
 
+    def get(self, x, y):
+        offset = int(y) * self.width + int(x)
+        return self.data[offset]
+
     def iter_rect(self, x: int, y: int, width: int, height: int, order=RIGHT_DOWN):
         # x,y coordenada superior esquerra, basada en 0
 
