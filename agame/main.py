@@ -176,6 +176,15 @@ class Game:
         text = self.myfont.render("fps     = %8.4f" % self.clock.get_fps(), False, (255, 255, 255))
         self.screen.blit(text, (12, 72))
 
+        # HACK: açò hauria d'anar a un altre lloc
+        foo = self.w2s(self.player_x, self.player_y)
+        pygame.draw.rect(
+            self.screen,
+            (0, 255, 0),
+            (foo[0], foo[1], self.ts.tile_width, self.ts.tile_height),
+            1
+        )
+
 
 if __name__ == '__main__':
     game = Game()
