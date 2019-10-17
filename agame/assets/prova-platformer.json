@@ -3,7 +3,7 @@
     "layers": [
         {
             "compression": "zlib",
-            "data": "eJztykEWQmAYhtHPSoTEBkolbSBJ2P8mhKiBZxEm/znv4M5ub2YfDBgx4YsZC374o9dz8vme2Q4BQkTYI8YBCVJPz9V3xAkZzrjgihw3FLjrOfseKPFEhRdqvNGgRafn7KtFREREZFMrhaaEMA==",
+            "data": "eJztyssRglAQBdEhEhFBTQABfwkIimL+STwFFRZ0EG6m6nbV2XUwsxfe6DHggy9+GDEh6HP5LSKzGEskWCFFhjU22Eb6vH45dihQosIeBxxxwlmf2++CGg2uuKHFHQ90eOpz+ymllFJKqf82A/OKxkk=",
             "encoding": "base64",
             "height": 9,
             "name": "cel",
@@ -29,7 +29,7 @@
         },
         {
             "compression": "zlib",
-            "data": "eJztkUsSQDAQRHMCHAKHwIXc/wLGrqsrpiI/Fv2qepHQ40lCEEIIIYQQvRgso2X6WsSBHXFdy79kTqlDTj+1M1sWywp75yu79rAjrmP+Nb7Rq5vb9zp4f5tltxyZbq25XdGR1/wM481k+BzwHZ7Hfe8Mn1xwP6XP//X3exP1uABdXRNv",
+            "data": "eJztkcsNgCAQRKlALUItAm3I/htwPZhMJop8BD3MS+awkGUf4JwQQgghhGhFZ+ktw9ciAdgR6xb+TzNKHXL6Y3tGy2SZYW1LsqsPO2J95V97fup+6fmpPfh/3rJY1ky32hyu6Mg172FCZ8bMPeE34v7QG9654HpMP9/r7/8m3mMHLXcSnQ==",
             "encoding": "base64",
             "height": 9,
             "name": "decoracio",
@@ -42,7 +42,7 @@
         },
         {
             "compression": "zlib",
-            "data": "eJzt00EKgCAQRmGPmHaH9BJ1po7YCA7MIjGRysX74G2kRfijcwAAAJjdInlTaHy/SVFKL/8XvqOb5naTnrH1P+xbW0tP319t01psPS52pnd/SGfpbhOaowuiyUHq",
+            "data": "eJztlFEKgCAQBT2i1R2yS9SZOmIbKCykph+awQzMjwgu+3Y1BgAAAABGx4qTcn65v4pO3BrXlXs7Vq81ZfXDk9DX210ZznpkrbPNUTuvf0bv2uIt3b9UpilbZv3ln9ETV2no/SGe3lgmOIYXoJpI1w==",
             "encoding": "base64",
             "height": 9,
             "name": "plataforma",
