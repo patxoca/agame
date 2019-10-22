@@ -15,6 +15,7 @@ SCREEN_COLS = 20
 SCREEN_ROWS = 9
 SPEED_X = 1.0 / 128.0
 SPEED_Y = 1.0 / 64.0
+GRAVITY = -1.0 / 16536.0
 
 
 class Game:
@@ -64,6 +65,7 @@ class Game:
         self.player_y = 7.0
         self.speed_x = 0
         self.speed_y = 0
+        self.touching_ground = True
 
         self.player_sprite = self.ts.get_tile_by_index(115)
 
@@ -135,12 +137,9 @@ class Game:
             elif event.key == pygame.K_RIGHT:
                 self.speed_x = SPEED_X
             elif event.key == pygame.K_UP:
-                # FIXME: si és un salt caldria definir una velocitat
-                # inicial i una acceleració de frenada (gravetat)
-                self.speed_y = -SPEED_Y
-            elif event.key == pygame.K_DOWN:
-                # FIXME: no sembla que K_DOWN tingui sentit
-                self.speed_y = SPEED_Y
+                if self.touching_ground:
+                    self.speed_y = -SPEED_Y
+                    self.touching_ground = False
         elif event.type == pygame.KEYUP:
             if event.key == pygame.K_ESCAPE:
                 self.quit = True
@@ -148,12 +147,6 @@ class Game:
                 self.speed_x = 0
             elif event.key == pygame.K_RIGHT:
                 self.speed_x = 0
-            elif event.key == pygame.K_UP:
-                # FIXME: no sembla que K_UP tingui sentit
-                self.speed_y = 0
-            elif event.key == pygame.K_DOWN:
-                # FIXME: no sembla que K_DOWN tingui sentit
-                self.speed_y = 0
             elif event.key in (pygame.K_1, pygame.K_2, pygame.K_3, pygame.K_4):
                 self.background.toggle_layer_visibility(
                     self.get_layer_name_by_index(event.key - pygame.K_1)
@@ -179,10 +172,16 @@ class Game:
             else:
                 self.player_x = int(new_player_x)
 
+        self.speed_y = constrain_to_range(
+            self.speed_y - GRAVITY * self.elapsed,
+            -SPEED_Y,
+            3 * SPEED_Y
+        )
         new_player_y = constrain_to_range(
             self.player_y + self.speed_y * self.elapsed,
             0,
-            self.ts.height - 1
+            self.ts.height - 2  # FIXME: originalment era - 1 però
+                                # peta, revisar
         )
         if self.speed_y < 0:
             if self.plataforma.get(self.player_x, new_player_y) == 0 and self.plataforma.get(self.player_x + 0.9, new_player_y) == 0:
@@ -194,6 +193,8 @@ class Game:
                 self.player_y = new_player_y
             else:
                 self.player_y = int(new_player_y)
+                self.speed_y = 0
+                self.touching_ground = True
 
     def display_debug_info(self):
         self.screen.blit(self.debug_bg, (8, 8))
@@ -211,12 +212,18 @@ class Game:
             (255, 255, 255)
         )
         self.screen.blit(text, (12, 36))
-        text = self.myfont.render("speed   = %8.4f" % self.speed_x, False, (255, 255, 255))
+        text = self.myfont.render(
+            "speed   = (%8.4f, %8.4f)" % (self.speed_x, self.speed_y),
+            False,
+            (255, 255, 255)
+        )
         self.screen.blit(text, (12, 48))
         text = self.myfont.render("elapsed = %8.4f" % self.elapsed, False, (255, 255, 255))
         self.screen.blit(text, (12, 60))
         text = self.myfont.render("fps     = %8.4f" % self.clock.get_fps(), False, (255, 255, 255))
         self.screen.blit(text, (12, 72))
+        text = self.myfont.render("gravity = %8.4f" % GRAVITY, False, (255, 255, 255))
+        self.screen.blit(text, (12, 84))
 
         # HACK: açò hauria d'anar a un altre lloc
         foo = self.w2s(self.player_x, self.player_y)
