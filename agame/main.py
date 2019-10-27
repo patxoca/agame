@@ -62,8 +62,17 @@ class Game:
         # self.vp_offset_y = self.camera_y - SCREEN_ROWS / 2
         self.player = Player(
             x=29.0,
-            y=6.0,
-            sprite=self.ts.get_tile_by_index(115),
+            y=0.0,
+            sprites=[
+                # 7-9     : fantasma
+                # 10-13   : carlota
+                # 76-78   : ???
+                # 98-100  : rabano
+                # 115-117 : monigot
+                self.ts.get_tile_by_index(115),
+                self.ts.get_tile_by_index(116),
+                self.ts.get_tile_by_index(117),
+            ],
             width=self.ts.width,
             height=self.ts.height,
             plataforma=self.ts.get_layer_by_name("plataforma"),

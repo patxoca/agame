@@ -4,6 +4,8 @@
 
 import abc
 
+import pygame
+
 from .constants import SPEED_Y
 from .constants import GRAVITY
 from .utils import constrain_to_range
@@ -29,7 +31,7 @@ class EntityBase(abc.ABC):
 
 class Player(EntityBase):
 
-    def __init__(self, x, y, sprite, width, height, plataforma):
+    def __init__(self, x, y, sprites, width, height, plataforma):
         self.x = x
         self.y = y
         self.speed_x = 0
@@ -37,12 +39,27 @@ class Player(EntityBase):
         self.touching_ground = True
 
         # FIXME: millorar la integració
-        self.sprite = sprite
+        self._sprites_right = list(sprites)
+        self._sprites_left = [pygame.transform.flip(i, True, False) for i in sprites]
+        self._active_sprites = self._sprites_right
         self.width = width
         self.height = height
         self.plataforma = plataforma
 
         self._debug = False
+        self._elapsed_moving = 0
+
+    @property
+    def sprite(self):
+        if self.speed_x > 0:
+            self._active_sprites = self._sprites_right
+        elif self.speed_x < 0:
+            self._active_sprites = self._sprites_left
+        if self.touching_ground:
+            index = (int(self._elapsed_moving) // 75) % len(self._active_sprites)
+        else:
+            index = 0
+        return self._active_sprites[index]
 
     def update(self, elapsed):
         new_player_x = constrain_to_range(
@@ -52,6 +69,7 @@ class Player(EntityBase):
         )
         if self.speed_x < 0:
             # left
+            self._elapsed_moving += elapsed
             if self.plataforma.get(new_player_x, self.y) == 0 and self.plataforma.get(new_player_x, self.y + 0.9) == 0:
                 self.x = new_player_x
             else:
@@ -59,6 +77,7 @@ class Player(EntityBase):
                 self.x = int(new_player_x) + 1
                 # self.speed_x = 0
         elif self.speed_x > 0:
+            self._elapsed_moving += elapsed
             # right
             if self.plataforma.get(new_player_x + 1, self.y) == 0 and self.plataforma.get(new_player_x + 1, self.y + 0.9) == 0:
                 self.x = new_player_x
@@ -66,6 +85,8 @@ class Player(EntityBase):
                 # collision
                 self.x = int(new_player_x)
                 # self.speed_x = 0
+        else:
+            self._elapsed_moving = 0
 
         self.speed_y = constrain_to_range(
             self.speed_y - GRAVITY * elapsed,
