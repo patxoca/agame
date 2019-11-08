@@ -97,7 +97,7 @@ class Game:
             #     sprites_left=[gs(31, 53), gs(32, 54), gs(33, 55)],
             #     sprites_right=[gsf(31, 53), gsf(32, 54), gsf(33, 55)],
             # ),
-            # player_size=(2, 2),
+            # player_size=(1, 2),
 
             # rabano 1
             # animation=PlayerAnimation(
