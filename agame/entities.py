@@ -81,7 +81,7 @@ class EntityBase(abc.ABC):
 
 class Player(EntityBase):
 
-    def __init__(self, x, y, animation, width, height, plataforma):
+    def __init__(self, x, y, animation, world_size, plataforma):
         self.x = x
         self.y = y
         self.speed_x = 0
@@ -89,8 +89,7 @@ class Player(EntityBase):
         self.touching_ground = True
 
         self._animation = animation
-        self.width = width
-        self.height = height
+        self.world_width, self.world_height = world_size
         self.plataforma = plataforma
 
         self._debug = False
@@ -106,7 +105,7 @@ class Player(EntityBase):
         new_player_x = constrain_to_range(
             self.x + self.speed_x * elapsed,
             0,
-            self.width - 1
+            self.world_width - 1
         )
         if self.speed_x < 0:
             # left
@@ -139,7 +138,7 @@ class Player(EntityBase):
         new_player_y = constrain_to_range(
             self.y + self.speed_y * elapsed,
             0,
-            self.height - 1
+            self.world_height - 1
         )
         if self.speed_y < 0:
             # up

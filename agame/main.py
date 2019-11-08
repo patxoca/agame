@@ -132,8 +132,7 @@ class Game:
             #     sprites_right=[gs(0, 23), gs(2, 25), gs(4, 27)],
             # ),
 
-            width=self.ts.width,
-            height=self.ts.height,
+            world_size=(self.ts.width, self.ts.height),
             plataforma=self.ts.get_layer_by_name("plataforma"),
         )
 
