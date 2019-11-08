@@ -83,54 +83,63 @@ class Game:
             #     sprites_left=[gsf(114, 114), gsf(115, 115), gsf(116, 116)],
             #     sprites_right=[gs(114, 114), gs(115, 115), gs(116, 116)],
             # ),
+            # player_size=(1, 1),
 
             # tanc
             # animation=PlayerAnimation(
             #     sprites_left=[gs(88, 111), gs(90, 113)],
             #     sprites_right=[gsf(88, 111), gsf(90, 113)],
             # ),
+            # player_size=(2, 2),
 
             # colombro
             # animation=PlayerAnimation(
             #     sprites_left=[gs(31, 53), gs(32, 54), gs(33, 55)],
             #     sprites_right=[gsf(31, 53), gsf(32, 54), gsf(33, 55)],
             # ),
+            # player_size=(2, 2),
 
             # rabano 1
             # animation=PlayerAnimation(
             #     sprites_left=[gs(28, 50), gs(29, 51), gs(30, 52)],
             #     sprites_right=[gsf(28, 50), gsf(29, 51), gsf(30, 52)],
             # ),
+            # player_size=(2, 2),
 
             # rabano 2
             # animation=PlayerAnimation(
             #     sprites_right=[gsf(97, 97), gsf(98, 98), gsf(99, 99)],
             #     sprites_left=[gs(97, 97), gs(98, 98), gs(99, 99)],
             # ),
+            # player_size=(1, 1),
 
             # verdura
             animation=PlayerAnimation(
                 sprites_right=[gsf(75, 75), gsf(76, 76), gsf(77, 77)],
                 sprites_left=[gs(75, 75), gs(76, 76), gs(77, 77)],
             ),
+            player_size=(1, 1),
 
             # carlota
             # animation=PlayerAnimation(
             #     sprites_right=[gsf(9, 9), gsf(10, 10), gsf(11, 11), gsf(12, 12)],
             #     sprites_left=[gs(9, 9), gs(10, 10), gs(11, 11), gs(12, 12)],
             # ),
+            # player_size=(1, 1),
 
             # fantasma
             # animation=PlayerAnimation(
             #     sprites_right=[gsf(6, 6), gsf(7, 7), gsf(8, 8)],
             #     sprites_left=[gs(6, 6), gs(7, 7), gs(8, 8)],
             # ),
+            # player_size=(1, 1),
 
             # mondongo1
             # animation=PlayerAnimation(
             #     sprites_left=[gsf(0, 23), gsf(2, 25), gsf(4, 27)],
             #     sprites_right=[gs(0, 23), gs(2, 25), gs(4, 27)],
             # ),
+            # player_size=(2, 2),
 
             world_size=(self.ts.width, self.ts.height),
             plataforma=self.ts.get_layer_by_name("plataforma"),
@@ -257,7 +266,7 @@ class Game:
         pygame.draw.rect(
             self.screen,
             (0, 255, 0),
-            (foo[0], foo[1], self.ts.tile_width, self.ts.tile_height),
+            (foo[0], foo[1], self.player.player_width * self.ts.tile_width, self.player.player_height * self.ts.tile_height),
             1
         )
 
