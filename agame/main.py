@@ -7,8 +7,10 @@ from pygame.locals import *  # NOQA
 
 from agame.tiled import TiledFile
 from agame.bgmgr import BackgroundManager
+from agame.spritemgr import SpriteSheet
 from agame.utils import constrain_to_range
 from agame.entities import Player
+from agame.entities import PlayerAnimation
 
 from agame.constants import FPS
 from agame.constants import SCREEN_COLS
@@ -52,6 +54,16 @@ class Game:
         debug_bg.set_alpha(192)
         self.debug_bg = debug_bg.convert_alpha()
 
+        self.sprite_sheet = SpriteSheet(
+            os.path.join(
+                os.path.dirname(__file__),
+                "assets",
+                "arcade_platformerV2.png"
+            ),
+            tile_width=64,
+            tile_height=64,
+        )
+
         pygame.font.init()
         self.myfont = pygame.font.SysFont('Ubuntu Mono', 16)
 
@@ -60,19 +72,66 @@ class Game:
         # self.camera_y = SCREEN_ROWS / 2
         # self.vp_offset_x = self.camera_x - SCREEN_COLS / 2
         # self.vp_offset_y = self.camera_y - SCREEN_ROWS / 2
+        gs = self.sprite_sheet.get_sprite
+        gsf = lambda x, y: pygame.transform.flip(gs(x, y), True, False)
         self.player = Player(
             x=29.0,
             y=0.0,
-            sprites=[
-                # 7-9     : fantasma
-                # 10-13   : carlota
-                # 76-78   : ???
-                # 98-100  : rabano
-                # 115-117 : monigot
-                self.ts.get_tile_by_index(115),
-                self.ts.get_tile_by_index(116),
-                self.ts.get_tile_by_index(117),
-            ],
+
+            # prota
+            # animation=PlayerAnimation(
+            #     sprites_left=[gsf(114, 114), gsf(115, 115), gsf(116, 116)],
+            #     sprites_right=[gs(114, 114), gs(115, 115), gs(116, 116)],
+            # ),
+
+            # tanc
+            # animation=PlayerAnimation(
+            #     sprites_left=[gs(88, 111), gs(90, 113)],
+            #     sprites_right=[gsf(88, 111), gsf(90, 113)],
+            # ),
+
+            # colombro
+            # animation=PlayerAnimation(
+            #     sprites_left=[gs(31, 53), gs(32, 54), gs(33, 55)],
+            #     sprites_right=[gsf(31, 53), gsf(32, 54), gsf(33, 55)],
+            # ),
+
+            # rabano 1
+            # animation=PlayerAnimation(
+            #     sprites_left=[gs(28, 50), gs(29, 51), gs(30, 52)],
+            #     sprites_right=[gsf(28, 50), gsf(29, 51), gsf(30, 52)],
+            # ),
+
+            # rabano 2
+            # animation=PlayerAnimation(
+            #     sprites_right=[gsf(97, 97), gsf(98, 98), gsf(99, 99)],
+            #     sprites_left=[gs(97, 97), gs(98, 98), gs(99, 99)],
+            # ),
+
+            # verdura
+            animation=PlayerAnimation(
+                sprites_right=[gsf(75, 75), gsf(76, 76), gsf(77, 77)],
+                sprites_left=[gs(75, 75), gs(76, 76), gs(77, 77)],
+            ),
+
+            # carlota
+            # animation=PlayerAnimation(
+            #     sprites_right=[gsf(9, 9), gsf(10, 10), gsf(11, 11), gsf(12, 12)],
+            #     sprites_left=[gs(9, 9), gs(10, 10), gs(11, 11), gs(12, 12)],
+            # ),
+
+            # fantasma
+            # animation=PlayerAnimation(
+            #     sprites_right=[gsf(6, 6), gsf(7, 7), gsf(8, 8)],
+            #     sprites_left=[gs(6, 6), gs(7, 7), gs(8, 8)],
+            # ),
+
+            # mondongo1
+            # animation=PlayerAnimation(
+            #     sprites_left=[gsf(0, 23), gsf(2, 25), gsf(4, 27)],
+            #     sprites_right=[gs(0, 23), gs(2, 25), gs(4, 27)],
+            # ),
+
             width=self.ts.width,
             height=self.ts.height,
             plataforma=self.ts.get_layer_by_name("plataforma"),
