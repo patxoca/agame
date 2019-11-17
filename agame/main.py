@@ -11,6 +11,7 @@ from agame.spritemgr import SpriteSheet
 from agame.utils import constrain_to_range
 from agame.entities import Player
 from agame.entities import PlayerAnimation
+from agame.collisionmgr import PlatformCollisionManager
 
 from agame.constants import FPS
 from agame.constants import SCREEN_COLS
@@ -142,7 +143,9 @@ class Game:
             # player_size=(2, 2),
 
             world_size=(self.ts.width, self.ts.height),
-            plataforma=self.ts.get_layer_by_name("plataforma"),
+            collision_manager=PlatformCollisionManager(
+                self.ts.get_layer_by_name("plataforma")
+            ),
         )
 
     def get_layer_name_by_index(self, n):

@@ -81,7 +81,7 @@ class EntityBase(abc.ABC):
 
 class Player(EntityBase):
 
-    def __init__(self, x, y, animation, world_size, player_size, plataforma):
+    def __init__(self, x, y, animation, world_size, player_size, collision_manager):
         self.x = x
         self.y = y
         self.speed_x = 0
@@ -91,7 +91,7 @@ class Player(EntityBase):
         self._animation = animation
         self.world_width, self.world_height = world_size
         self.player_width, self.player_height = player_size
-        self.plataforma = plataforma
+        self._collmgr = collision_manager
 
         self._debug = False
 
@@ -112,22 +112,22 @@ class Player(EntityBase):
             # left
             # self._elapsed_moving += elapsed
             direction = PlayerAnimation.DIR_LEFT
-            if self.plataforma.get(new_player_x, self.y) == 0 and self.plataforma.get(new_player_x, self.y + self.player_height - 0.1) == 0:
-                self.x = new_player_x
-            else:
+            if self._collmgr.check_collision_left(new_player_x, self.y, self.player_width, self.player_height):
                 # collision
                 self.x = int(new_player_x) + self.player_width
                 # self.speed_x = 0
+            else:
+                self.x = new_player_x
         elif self.speed_x > 0:
             direction = PlayerAnimation.DIR_RIGHT
             # self._elapsed_moving += elapsed
             # right
-            if self.plataforma.get(new_player_x + self.player_width, self.y) == 0 and self.plataforma.get(new_player_x + self.player_width, self.y + self.player_height - 0.1) == 0:
-                self.x = new_player_x
-            else:
+            if self._collmgr.check_collision_right(new_player_x, self.y, self.player_width, self.player_height):
                 # collision
                 self.x = int(new_player_x)
                 # self.speed_x = 0
+            else:
+                self.x = new_player_x
         else:
             direction = None
 
@@ -143,22 +143,22 @@ class Player(EntityBase):
         )
         if self.speed_y < 0:
             # up
-            if self.plataforma.get(self.x, new_player_y) == 0 and self.plataforma.get(self.x + self.player_width - 0.1, new_player_y) == 0:
-                self.y = new_player_y
-            else:
+            if self._collmgr.check_collision_up(self.x, new_player_y, self.player_width, self.player_height):
                 # collision
                 self.y = int(new_player_y) + self.player_height
                 self.speed_y = 0
+            else:
+                self.y = new_player_y
         elif self.speed_y > 0:
             # down
-            if self.plataforma.get(self.x, new_player_y + self.player_height) == 0 and self.plataforma.get(self.x + self.player_width - 0.1, new_player_y + self.player_height) == 0:
-                self.y = new_player_y
-                self.touching_ground = False
-            else:
+            if self._collmgr.check_collision_down(self.x, new_player_y, self.player_width, self.player_height):
                 # collision
                 self.y = int(new_player_y)
                 self.speed_y = 0
                 self.touching_ground = True
+            else:
+                self.y = new_player_y
+                self.touching_ground = False
 
         if direction is None:
             self._animation.stop()
